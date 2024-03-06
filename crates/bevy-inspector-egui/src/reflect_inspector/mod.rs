@@ -443,7 +443,7 @@ impl InspectorUi<'_, '_> {
         options: &dyn Any,
     ) -> bool {
         let mut changed = false;
-        Grid::new(id).show(ui, |ui| {
+        Grid::new(id).num_columns(2).show(ui, |ui| {
             for i in 0..value.field_len() {
                 ui.label(value.name_at(i).unwrap());
                 let field = value.field_at_mut(i).unwrap();
@@ -466,7 +466,7 @@ impl InspectorUi<'_, '_> {
         id: egui::Id,
         options: &dyn Any,
     ) {
-        Grid::new(id).show(ui, |ui| {
+        Grid::new(id).num_columns(2).show(ui, |ui| {
             for i in 0..value.field_len() {
                 ui.label(value.name_at(i).unwrap());
                 let field = value.field_at(i).unwrap();
@@ -491,7 +491,7 @@ impl InspectorUi<'_, '_> {
         projector: impl Fn(&mut dyn Reflect) -> &mut dyn Reflect,
     ) -> bool {
         let mut changed = false;
-        Grid::new(id).show(ui, |ui| {
+        Grid::new(id).num_columns(2).show(ui, |ui| {
             for (i, field) in info.iter().enumerate() {
                 ui.label(field.name());
                 changed |= self.ui_for_reflect_many_with_options(
