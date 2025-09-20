@@ -59,10 +59,10 @@ bevy_core_pipeline = { version = "0.17.0-rc.1", optional = true }
 bevy_pbr = { version = "0.17.0-rc.1", optional = true }
 bevy_image = { version = "0.17.0-rc.1", optional = true }
 
-egui = { version = "0.32", git = "https://github.com/pindash-io/egui.git", branch = "accesskit" }
+egui = { version = "0.32" }
 
 # bevy_egui = { version = "0.37.0", git = "https://github.com/pindash-io/bevy_egui.git", branch = "bevy-0.17", default-features = false }
-bevy_egui = { git = "https://github.com/dsgallups/bevy_egui.git", branch = "fix-encase", default-features = false }
+bevy_egui = { git = "https://github.com/dsgallups/bevy_egui.git", branch = "dsgallups/0.17", default-features = false }
 
 bytemuck = "1.16.0"
 image = { version = "0.25", default-features = false }
