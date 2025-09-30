@@ -96,7 +96,7 @@ bevy_pbr = { path = "D:/Repos/games/bevy/crates/bevy_pbr" }
 bevy_image = { path = "D:/Repos/games/bevy/crates/bevy_image" }
 
 [dev-dependencies]
-bevy = { version = "0.17.0-rc.1", default-features = false, features = [
+bevy = { version = "0.17.0-rc.2", default-features = false, features = [
     "std",
     "x11",
     "bevy_winit",
