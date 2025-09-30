@@ -38,31 +38,29 @@ features = ["winit/x11"]
 winit = { version = "0.30.0", default-features = false }
 
 bevy-inspector-egui-derive = { path = "../bevy-inspector-egui-derive" }
-bevy_app = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_asset = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_color = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_platform = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_ecs = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_log = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_camera = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_math = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_mesh = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_light = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_reflect = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_state = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_time = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_utils = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-bevy_window = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
-
-bevy_render = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
-bevy_core_pipeline = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
-bevy_pbr = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
-bevy_image = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
+bevy_app = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_asset = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_color = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_platform = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_ecs = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_log = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_camera = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_math = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_mesh = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_light = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_reflect = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_state = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_time = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_utils = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_window = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft" }
+bevy_render = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
+bevy_core_pipeline = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
+bevy_pbr = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
+bevy_image = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", optional = true }
 
 egui = { version = "0.32" }
 
-# bevy_egui = { version = "0.37.0", git = "https://github.com/pindash-io/bevy_egui.git", branch = "bevy-0.17", default-features = false }
-bevy_egui = { git = "https://github.com/dsgallups/bevy_egui.git", branch = "dsgallups/0.17", default-features = false }
+bevy_egui = { git = "https://github.com/teamdman/bevy_egui.git", branch = "teamy-mft", default-features = false }
 
 bytemuck = "1.16.0"
 image = { version = "0.25", default-features = false }
@@ -72,31 +70,8 @@ fuzzy-matcher = "0.3.7"
 disqualified = "1.0.0"
 uuid = "1.11.0"
 
-
-[patch."https://github.com/TeamDman/bevy"]
-bevy = { path = "D:/Repos/games/bevy" }
-bevy_app = { path = "D:/Repos/games/bevy/crates/bevy_app" }
-bevy_asset = { path = "D:/Repos/games/bevy/crates/bevy_asset" }
-bevy_color = { path = "D:/Repos/games/bevy/crates/bevy_color" }
-bevy_platform = { path = "D:/Repos/games/bevy/crates/bevy_platform" }
-bevy_ecs = { path = "D:/Repos/games/bevy/crates/bevy_ecs" }
-bevy_log = { path = "D:/Repos/games/bevy/crates/bevy_log" }
-bevy_camera = { path = "D:/Repos/games/bevy/crates/bevy_camera" }
-bevy_math = { path = "D:/Repos/games/bevy/crates/bevy_math" }
-bevy_mesh = { path = "D:/Repos/games/bevy/crates/bevy_mesh" }
-bevy_light = { path = "D:/Repos/games/bevy/crates/bevy_light" }
-bevy_reflect = { path = "D:/Repos/games/bevy/crates/bevy_reflect" }
-bevy_state = { path = "D:/Repos/games/bevy/crates/bevy_state" }
-bevy_time = { path = "D:/Repos/games/bevy/crates/bevy_time" }
-bevy_utils = { path = "D:/Repos/games/bevy/crates/bevy_utils" }
-bevy_window = { path = "D:/Repos/games/bevy/crates/bevy_window" }
-bevy_render = { path = "D:/Repos/games/bevy/crates/bevy_render" }
-bevy_core_pipeline = { path = "D:/Repos/games/bevy/crates/bevy_core_pipeline" }
-bevy_pbr = { path = "D:/Repos/games/bevy/crates/bevy_pbr" }
-bevy_image = { path = "D:/Repos/games/bevy/crates/bevy_image" }
-
 [dev-dependencies]
-bevy = { version = "0.17.0-rc.2", default-features = false, features = [
+bevy = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", default-features = false, features = [
     "std",
     "x11",
     "bevy_winit",
@@ -113,12 +88,11 @@ bevy = { version = "0.17.0-rc.2", default-features = false, features = [
     "tonemapping_luts",
     "ktx2",
 ] }
-bevy_math = { version = "0.18.0-dev", git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", features = ["mint"] }
-egui_dock = { version = "0.17", git = "https://github.com/pindash-io/egui_dock.git", branch = "accesskit" }
+bevy_math = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", features = ["mint"] }
+egui_dock = { git = "https://github.com/TeamDman/egui_dock.git", branch = "teamy-mft" }
 # transform-gizmo-egui = { version = "0.7.0", git = "https://github.com/pindash-io/transform-gizmo.git", branch = "bevy-0.17" }
 # bevy_mod_picking = { git = "https://github.com/aevyrie/bevy_mod_picking", rev = "554649a951689dce66d0d759839b326874e8826f", default-features = false, features = ["backend_raycast", "backend_egui", "backend_sprite"] }
 # bevy_framepace = "0.11"
-
 
 [[example]]
 name = "inspector_options"

@@ -1,3 +1,39 @@
 [workspace]
 resolver = "2"
 members = ["crates/*"]
+
+[patch."https://github.com/TeamDman/bevy"]
+# we are also patching bevy_* crates used by bevy_egui that aren't explicitly used here
+bevy = { path = "D:/Repos/games/bevy" }
+bevy_app = { path = "D:/Repos/games/bevy/crates/bevy_app" }
+bevy_asset = { path = "D:/Repos/games/bevy/crates/bevy_asset" }
+bevy_color = { path = "D:/Repos/games/bevy/crates/bevy_color" }
+bevy_platform = { path = "D:/Repos/games/bevy/crates/bevy_platform" }
+bevy_ecs = { path = "D:/Repos/games/bevy/crates/bevy_ecs" }
+bevy_log = { path = "D:/Repos/games/bevy/crates/bevy_log" }
+bevy_camera = { path = "D:/Repos/games/bevy/crates/bevy_camera" }
+bevy_math = { path = "D:/Repos/games/bevy/crates/bevy_math" }
+bevy_mesh = { path = "D:/Repos/games/bevy/crates/bevy_mesh" }
+bevy_light = { path = "D:/Repos/games/bevy/crates/bevy_light" }
+bevy_reflect = { path = "D:/Repos/games/bevy/crates/bevy_reflect" }
+bevy_state = { path = "D:/Repos/games/bevy/crates/bevy_state" }
+bevy_time = { path = "D:/Repos/games/bevy/crates/bevy_time" }
+bevy_utils = { path = "D:/Repos/games/bevy/crates/bevy_utils" }
+bevy_window = { path = "D:/Repos/games/bevy/crates/bevy_window" }
+bevy_render = { path = "D:/Repos/games/bevy/crates/bevy_render" }
+bevy_core_pipeline = { path = "D:/Repos/games/bevy/crates/bevy_core_pipeline" }
+bevy_pbr = { path = "D:/Repos/games/bevy/crates/bevy_pbr" }
+bevy_image = { path = "D:/Repos/games/bevy/crates/bevy_image" }
+bevy_a11y = { path = "D:/Repos/games/bevy/crates/bevy_a11y" }
+bevy_shader = { path = "D:/Repos/games/bevy/crates/bevy_shader" }
+bevy_tasks = { path = "D:/Repos/games/bevy/crates/bevy_tasks" }
+bevy_transform = { path = "D:/Repos/games/bevy/crates/bevy_transform" }
+bevy_ui_render = { path = "D:/Repos/games/bevy/crates/bevy_ui_render" }
+bevy_picking = { path = "D:/Repos/games/bevy/crates/bevy_picking" }
+bevy_derive = { path = "D:/Repos/games/bevy/crates/bevy_derive" }
+bevy_input = { path = "D:/Repos/games/bevy/crates/bevy_input" }
+bevy_winit = { path = "D:/Repos/games/bevy/crates/bevy_winit" }
+
+
+[patch."https://github.com/teamdman/bevy_egui"]
+bevy_egui = { path = "D:/Repos/Games/bevy_egui" }

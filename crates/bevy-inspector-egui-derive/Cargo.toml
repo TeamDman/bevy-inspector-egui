@@ -17,7 +17,7 @@ quote = "1.0"
 proc-macro2 = "1.0"
 
 [dev-dependencies]
-bevy_ecs = { version = "0.17.0-rc.2", default-features = false }
-bevy_math = { version = "0.17.0-rc.2", default-features = false }
-bevy_reflect = { version = "0.17.0-rc.2", default-features = false }
+bevy_ecs = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", default-features = true }
+bevy_math = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", default-features = true }
+bevy_reflect = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", default-features = true }
 bevy-inspector-egui = { path = "../bevy-inspector-egui" }
