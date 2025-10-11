@@ -23,6 +23,7 @@ bevy_window = { path = "D:/Repos/games/bevy/crates/bevy_window" }
 bevy_render = { path = "D:/Repos/games/bevy/crates/bevy_render" }
 bevy_core_pipeline = { path = "D:/Repos/games/bevy/crates/bevy_core_pipeline" }
 bevy_pbr = { path = "D:/Repos/games/bevy/crates/bevy_pbr" }
+bevy_ptr = { path = "D:/Repos/games/bevy/crates/bevy_ptr" }
 bevy_image = { path = "D:/Repos/games/bevy/crates/bevy_image" }
 bevy_a11y = { path = "D:/Repos/games/bevy/crates/bevy_a11y" }
 bevy_shader = { path = "D:/Repos/games/bevy/crates/bevy_shader" }
@@ -37,3 +38,6 @@ bevy_winit = { path = "D:/Repos/games/bevy/crates/bevy_winit" }
 
 [patch."https://github.com/teamdman/bevy_egui"]
 bevy_egui = { path = "D:/Repos/Games/bevy_egui" }
+
+[patch."https://github.com/TeamDman/egui_dock"]
+egui_dock = { path = "G:/Programming/Repos/egui_dock" }
