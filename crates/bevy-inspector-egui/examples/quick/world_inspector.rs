@@ -64,7 +64,7 @@ fn setup(
     // extra entities
     let cube_mesh = meshes.add(Cuboid::new(1.0, 1.0, 1.0));
     let cube_material = materials.add(Color::srgba(0.0, 0.0, 1.0, 0.5));
-    commands.spawn_batch((0..*num_extra_entities).map(move |i| {
+    commands.spawn_batch((0..(*num_extra_entities).min(25)).map(move |i| {
         (
             Name::new(format!("Extra {i}")),
             Transform::from_xyz(i as f32 * 2.0, 0.5, -2.0),
