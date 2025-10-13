@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, ops::Sub};
 
 use bevy::{input::common_conditions::input_toggle_active, prelude::*};
 use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
@@ -62,14 +62,19 @@ fn setup(
     ));
 
     // extra entities
-    for i in 0..*num_extra_entities {
-        commands.spawn((
-            Name::new(format!("Extra Cube {i}")),
-            Transform::from_xyz(i as f32 * 2.0, 0.5, 2.0),
-            Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
-            MeshMaterial3d(materials.add(Color::srgba(0.0, 0.0, 1.0, 0.5))),
-        ));
-    }
+    let cube_mesh = meshes.add(Cuboid::new(1.0, 1.0, 1.0));
+    let cube_material = materials.add(Color::srgba(0.0, 0.0, 1.0, 0.5));
+    commands.spawn_batch((0..*num_extra_entities).map(move |i| {
+        (
+            Name::new(format!("Extra {i}")),
+            Transform::from_xyz(i as f32 * 2.0, 0.5, -2.0),
+            Mesh3d(cube_mesh.clone()),
+            MeshMaterial3d(cube_material.clone()),
+        )
+    }));
+    commands.spawn_batch(
+        (25..num_extra_entities.sub(25)).map(move |i| (Name::new(format!("Extra {i}")),)),
+    );
 }
 
 fn exit_after_delay(InMut(num_ticks): InMut<u32>, mut exit: MessageWriter<AppExit>) {
