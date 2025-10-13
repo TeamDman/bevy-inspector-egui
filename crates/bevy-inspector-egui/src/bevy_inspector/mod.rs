@@ -45,11 +45,11 @@ use bevy_asset::{Asset, AssetServer, Assets, ReflectAsset, UntypedAssetId};
 use bevy_ecs::query::{QueryFilter, WorldQuery};
 use bevy_ecs::world::CommandQueue;
 use bevy_ecs::{component::ComponentId, observer, prelude::*};
+use bevy_log::tracing::info_span;
 use bevy_reflect::{Reflect, TypeRegistry};
 use bevy_state::state::{FreelyMutableState, NextState, State};
 use fuzzy_matcher::FuzzyMatcher;
 use fuzzy_matcher::skim::SkimMatcherV2;
-use bevy_log::tracing::info_span;
 
 pub(crate) mod errors;
 
@@ -291,7 +291,7 @@ pub fn ui_for_entities_filtered<F>(
     F: EntityFilter,
 {
     let _span = info_span!("ui_for_entities_filtered").entered();
-    
+
     let _span_type_registry = info_span!("ui_for_entities_filtered_type_registry").entered();
     let type_registry = world.resource::<AppTypeRegistry>().0.clone();
     let type_registry = type_registry.read();
@@ -316,7 +316,7 @@ pub fn ui_for_entities_filtered<F>(
     let _span_row_height = info_span!("ui_for_entities_filtered_row_height").entered();
     let row_height = ui.text_style_height(&egui::TextStyle::Body) + ui.spacing().item_spacing.y;
     drop(_span_row_height);
-    
+
     let _span_render = info_span!("ui_for_entities_filtered_render").entered();
     egui::ScrollArea::vertical().show_rows(ui, row_height, entities.len(), |ui, row_range| {
         for row_index in row_range {
@@ -333,7 +333,8 @@ pub fn ui_for_entities_filtered<F>(
                 .show(ui, |ui| {
                     drop(_span_header);
                     if with_children {
-                        let _span_children = info_span!("ui_for_entities_filtered_children").entered();
+                        let _span_children =
+                            info_span!("ui_for_entities_filtered_children").entered();
                         ui_for_entity_with_children_inner(
                             world,
                             entity,
@@ -344,7 +345,8 @@ pub fn ui_for_entities_filtered<F>(
                         );
                         drop(_span_children);
                     } else {
-                        let _span_components = info_span!("ui_for_entities_filtered_components").entered();
+                        let _span_components =
+                            info_span!("ui_for_entities_filtered_components").entered();
                         let mut queue = CommandQueue::default();
                         ui_for_entity_components(
                             &mut world.into(),
@@ -355,12 +357,16 @@ pub fn ui_for_entities_filtered<F>(
                             &type_registry,
                         );
                         drop(_span_components);
-                        
+
                         let _span_apply = info_span!("ui_for_entities_filtered_apply").entered();
                         queue.apply(world);
                         drop(_span_apply);
                     }
                 });
+            let mut width = ui.available_size();
+            width.y = 0.0;
+            // width.x -= ui.spacing().item_spacing.x;
+            ui.allocate_space(width);
         }
     });
 }
@@ -554,7 +560,7 @@ fn self_or_children_satisfy_filter(
     show_observers: bool,
 ) -> bool {
     let _span = info_span!("self_or_children_satisfy_filter").entered();
-    
+
     let _span_name = info_span!("guess_entity_name").entered();
     let name = guess_entity_name(world, entity);
     drop(_span_name);
@@ -575,7 +581,7 @@ fn self_or_children_satisfy_filter(
         name.to_lowercase().contains(filter)
     };
     drop(_span_match);
-    
+
     !is_hidden_observer && self_matches || {
         let _span_children = info_span!("check_children").entered();
         let Ok(children) = world
