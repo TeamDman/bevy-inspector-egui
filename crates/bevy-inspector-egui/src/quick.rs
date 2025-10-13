@@ -15,6 +15,7 @@ use bevy_ecs::{prelude::*, query::QueryFilter, schedule::BoxedCondition};
 use bevy_egui::{EguiContext, EguiPlugin, EguiPrimaryContextPass, PrimaryEguiContext};
 use bevy_reflect::Reflect;
 use bevy_state::state::FreelyMutableState;
+use bevy_log::tracing::info_span;
 
 use crate::{DefaultInspectorConfigPlugin, bevy_inspector};
 
@@ -89,6 +90,7 @@ impl Plugin for WorldInspectorPlugin {
 }
 
 fn world_inspector_ui(world: &mut World) {
+    let _span = info_span!("world_inspector_ui").entered();
     let egui_context = world
         .query_filtered::<&mut EguiContext, With<PrimaryEguiContext>>()
         .single(world);
@@ -101,7 +103,9 @@ fn world_inspector_ui(world: &mut World) {
     egui::Window::new("World Inspector")
         .default_size(DEFAULT_SIZE)
         .show(egui_context.get_mut(), |ui| {
+            let _span = info_span!("world_inspector_ui_window").entered();
             egui::ScrollArea::both().show(ui, |ui| {
+                let _span = info_span!("world_inspector_ui_scroll").entered();
                 bevy_inspector::ui_for_world(world, ui);
                 ui.allocate_space(ui.available_size());
             });

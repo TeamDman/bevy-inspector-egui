@@ -49,6 +49,7 @@ use bevy_reflect::{Reflect, TypeRegistry};
 use bevy_state::state::{FreelyMutableState, NextState, State};
 use fuzzy_matcher::FuzzyMatcher;
 use fuzzy_matcher::skim::SkimMatcherV2;
+use bevy_log::tracing::info_span;
 
 pub(crate) mod errors;
 
@@ -82,21 +83,26 @@ pub fn ui_for_value(value: &mut dyn Reflect, ui: &mut egui::Ui, world: &mut Worl
 
 /// Display `Entities`, `Resources` and `Assets` using their respective functions inside headers
 pub fn ui_for_world(world: &mut World, ui: &mut egui::Ui) {
+    let _span = info_span!("ui_for_world").entered();
     egui::CollapsingHeader::new("Entities")
         .default_open(true)
         .show(ui, |ui| {
+            let _span = info_span!("ui_for_world_entities").entered();
             ui_for_entities(world, ui);
         });
     egui::CollapsingHeader::new("Resources").show(ui, |ui| {
+        let _span = info_span!("ui_for_world_resources").entered();
         ui_for_resources(world, ui);
     });
     egui::CollapsingHeader::new("Assets").show(ui, |ui| {
+        let _span = info_span!("ui_for_world_assets").entered();
         ui_for_all_assets(world, ui);
     });
 }
 
 /// Display all reflectable resources in the world
 pub fn ui_for_resources(world: &mut World, ui: &mut egui::Ui) {
+    let _span = info_span!("ui_for_resources").entered();
     let type_registry = world.resource::<AppTypeRegistry>().0.clone();
     let type_registry = type_registry.read();
 
@@ -146,6 +152,7 @@ pub fn ui_for_resource<R: Resource + Reflect>(world: &mut World, ui: &mut egui::
 
 /// Display all reflectable assets
 pub fn ui_for_all_assets(world: &mut World, ui: &mut egui::Ui) {
+    let _span = info_span!("ui_for_all_assets").entered();
     let type_registry = world.resource::<AppTypeRegistry>().0.clone();
     let type_registry = type_registry.read();
 
@@ -256,6 +263,7 @@ pub fn ui_for_world_entities_filtered<QF: WorldQuery + QueryFilter>(
 
 /// Display all root entities.
 pub fn ui_for_entities(world: &mut World, ui: &mut egui::Ui) {
+    let _span = info_span!("ui_for_entities").entered();
     let filter: Filter = Filter::from_ui_fuzzy(ui, egui::Id::new("default_world_entities_filter"));
     ui_for_entities_filtered(world, ui, true, &filter);
 }
@@ -272,48 +280,79 @@ pub fn ui_for_entities_filtered<F>(
 ) where
     F: EntityFilter,
 {
+    let _span = info_span!("ui_for_entities_filtered").entered();
+    
+    let _span_type_registry = info_span!("ui_for_entities_filtered_type_registry").entered();
     let type_registry = world.resource::<AppTypeRegistry>().0.clone();
     let type_registry = type_registry.read();
+    drop(_span_type_registry);
 
+    let _span_query = info_span!("ui_for_entities_filtered_query").entered();
     let mut root_entities = world.query_filtered::<Entity, F::StaticFilter>();
+    drop(_span_query);
+
+    let _span_collect = info_span!("ui_for_entities_filtered_collect").entered();
     let mut entities = root_entities.iter(world).collect::<Vec<_>>();
+    drop(_span_collect);
 
+    let _span_filter = info_span!("ui_for_entities_filtered_filter").entered();
     filter.filter_entities(world, &mut entities);
+    drop(_span_filter);
 
+    let _span_sort = info_span!("ui_for_entities_filtered_sort").entered();
     entities.sort();
+    drop(_span_sort);
 
-    let id = egui::Id::new("world ui");
-    for entity in entities {
-        let id = id.with(entity);
+    let _span_row_height = info_span!("ui_for_entities_filtered_row_height").entered();
+    let row_height = ui.text_style_height(&egui::TextStyle::Body) + ui.spacing().item_spacing.y;
+    drop(_span_row_height);
+    
+    let _span_render = info_span!("ui_for_entities_filtered_render").entered();
+    egui::ScrollArea::vertical().show_rows(ui, row_height, entities.len(), |ui, row_range| {
+        for row_index in row_range {
+            let entity = entities[row_index];
+            let id = egui::Id::new("world ui").with(entity);
 
-        let entity_name = guess_entity_name(world, entity);
+            let _span_entity_name = info_span!("ui_for_entities_filtered_entity_name").entered();
+            let entity_name = guess_entity_name(world, entity);
+            drop(_span_entity_name);
 
-        egui::CollapsingHeader::new(&entity_name)
-            .id_salt(id)
-            .show(ui, |ui| {
-                if with_children {
-                    ui_for_entity_with_children_inner(
-                        world,
-                        entity,
-                        ui,
-                        id,
-                        &type_registry,
-                        filter,
-                    );
-                } else {
-                    let mut queue = CommandQueue::default();
-                    ui_for_entity_components(
-                        &mut world.into(),
-                        Some(&mut queue),
-                        entity,
-                        ui,
-                        id,
-                        &type_registry,
-                    );
-                    queue.apply(world);
-                }
-            });
-    }
+            let _span_header = info_span!("ui_for_entities_filtered_header").entered();
+            egui::CollapsingHeader::new(&entity_name)
+                .id_salt(id)
+                .show(ui, |ui| {
+                    drop(_span_header);
+                    if with_children {
+                        let _span_children = info_span!("ui_for_entities_filtered_children").entered();
+                        ui_for_entity_with_children_inner(
+                            world,
+                            entity,
+                            ui,
+                            id,
+                            &type_registry,
+                            filter,
+                        );
+                        drop(_span_children);
+                    } else {
+                        let _span_components = info_span!("ui_for_entities_filtered_components").entered();
+                        let mut queue = CommandQueue::default();
+                        ui_for_entity_components(
+                            &mut world.into(),
+                            Some(&mut queue),
+                            entity,
+                            ui,
+                            id,
+                            &type_registry,
+                        );
+                        drop(_span_components);
+                        
+                        let _span_apply = info_span!("ui_for_entities_filtered_apply").entered();
+                        queue.apply(world);
+                        drop(_span_apply);
+                    }
+                });
+        }
+    });
 }
 
 pub trait EntityFilter {
@@ -475,6 +514,17 @@ impl<F: QueryFilter> EntityFilter for Filter<F> {
         !self.word.is_empty() || !self.show_observers
     }
 
+    fn filter_entities(&self, world: &mut World, entities: &mut Vec<Entity>) {
+        if !self.is_active() {
+            return;
+        }
+        let _span = info_span!("filter_entities_retain").entered();
+        entities.retain(|&entity| {
+            let _span = info_span!("filter_entity_check").entered();
+            self.filter_entity(world, entity)
+        });
+    }
+
     fn filter_entity(&self, world: &mut World, entity: Entity) -> bool {
         self_or_children_satisfy_filter(
             world,
@@ -493,32 +543,45 @@ fn self_or_children_satisfy_filter(
     is_fuzzy: bool,
     show_observers: bool,
 ) -> bool {
+    let _span = info_span!("self_or_children_satisfy_filter").entered();
+    
+    let _span_name = info_span!("guess_entity_name").entered();
     let name = guess_entity_name(world, entity);
+    drop(_span_name);
 
+    let _span_observer = info_span!("check_observer").entered();
     let is_hidden_observer = !show_observers
         && world
             .query::<&observer::Observer>()
             .get(world, entity)
             .is_ok();
+    drop(_span_observer);
 
+    let _span_match = info_span!("self_match").entered();
     let self_matches = if is_fuzzy {
         let matcher = SkimMatcherV2::default();
         matcher.fuzzy_match(name.as_str(), filter).is_some()
     } else {
         name.to_lowercase().contains(filter)
     };
+    drop(_span_match);
+    
     !is_hidden_observer && self_matches || {
+        let _span_children = info_span!("check_children").entered();
         let Ok(children) = world
             .query::<&Children>()
             .get(world, entity)
             .map(|children| children.to_vec())
         else {
+            drop(_span_children);
             return false;
         };
 
-        children.iter().any(|child| {
+        let result = children.iter().any(|child| {
             self_or_children_satisfy_filter(world, *child, filter, is_fuzzy, show_observers)
-        })
+        });
+        drop(_span_children);
+        result
     }
 }
 
