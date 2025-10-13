@@ -82,7 +82,7 @@ bevy = { git = "https://github.com/TeamDman/bevy.git", branch = "teamy-mft", def
     "bevy_text",
     "bevy_core_pipeline",
     "bevy_picking",
-    "animation",
+    "bevy_animation",
     "png",
     "zstd_rust",
     "tonemapping_luts",
