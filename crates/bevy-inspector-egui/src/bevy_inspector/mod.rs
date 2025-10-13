@@ -264,7 +264,17 @@ pub fn ui_for_world_entities_filtered<QF: WorldQuery + QueryFilter>(
 /// Display all root entities.
 pub fn ui_for_entities(world: &mut World, ui: &mut egui::Ui) {
     let _span = info_span!("ui_for_entities").entered();
-    let filter: Filter = Filter::from_ui_fuzzy(ui, egui::Id::new("default_world_entities_filter"));
+    const MAX_ENTITIES_FOR_FILTER: u32 = 10_000;
+    let filter: Filter = if world.entities().len() > MAX_ENTITIES_FOR_FILTER {
+        ui.label(format!(
+            "Too many entities ({} exceeds {}), showing all without filtering",
+            world.entities().len(),
+            MAX_ENTITIES_FOR_FILTER
+        ));
+        Filter::all()
+    } else {
+        Filter::from_ui_fuzzy(ui, egui::Id::new("default_world_entities_filter"))
+    };
     ui_for_entities_filtered(world, ui, true, &filter);
 }
 
