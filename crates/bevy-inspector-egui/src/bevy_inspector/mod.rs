@@ -424,7 +424,7 @@ impl<F: QueryFilter> Filter<F> {
             let show_observers = {
                 let id = id.with("show_observers");
                 let mut show_observers = ui.memory_mut(|mem| {
-                    let persistent_value: &mut bool = mem.data.get_persisted_mut_or(id, false);
+                    let persistent_value: &mut bool = mem.data.get_persisted_mut_or(id, true);
                     *persistent_value
                 });
                 ui.checkbox(&mut show_observers, "Observers");
