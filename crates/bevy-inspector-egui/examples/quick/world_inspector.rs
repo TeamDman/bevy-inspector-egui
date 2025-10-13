@@ -6,11 +6,9 @@ use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 fn main() {
     let mut args = env::args();
     args.next(); // skip executable name
-    let num_extra_entities = args.next()
-        .unwrap_or_default()
-        .parse::<u32>()
-        .unwrap_or(0);
-    let num_ticks = args.next()
+    let num_extra_entities = args.next().unwrap_or_default().parse::<u32>().unwrap_or(0);
+    let num_ticks = args
+        .next()
         .unwrap_or_default()
         .parse::<u32>()
         .inspect(|n| {
@@ -74,10 +72,7 @@ fn setup(
     }
 }
 
-fn exit_after_delay(
-    InMut(num_ticks): InMut<u32>,
-    mut exit: MessageWriter<AppExit>,
-) {
+fn exit_after_delay(InMut(num_ticks): InMut<u32>, mut exit: MessageWriter<AppExit>) {
     if *num_ticks == 0 {
         exit.write(AppExit::default());
     } else {
