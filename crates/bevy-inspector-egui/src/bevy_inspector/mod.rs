@@ -647,8 +647,32 @@ fn ui_for_entity_with_children_inner<F>(
         && !children.is_empty()
     {
         filter.filter_entities(world, &mut children);
-        ui.label("Children");
-        for child in children {
+        ui.horizontal(|ui| {
+            ui.label("Children: ");
+            ui.label(format!("{}", children.len()));
+        });
+        const MIN_CHILDREN_FOR_SLIDER: usize = 10;
+        let count_of_children_to_display = if children.len() > MIN_CHILDREN_FOR_SLIDER {
+            let count_of_children_to_display_id = id.with("count_of_children_to_display");
+            let mut count_of_children_to_display: usize = ui.memory_mut(|mem| {
+                *mem.data
+                    .get_persisted_mut_or(count_of_children_to_display_id, 10)
+            });
+            ui.add(
+                egui::Slider::new(&mut count_of_children_to_display, 1..=children.len())
+                    .text("Count of children to display:"),
+            );
+            ui.memory_mut(|mem| {
+                *mem.data
+                    .get_persisted_mut_or_default(count_of_children_to_display_id) =
+                    count_of_children_to_display;
+            });
+            count_of_children_to_display
+        } else {
+            children.len()
+        };
+
+        for child in children.iter().take(count_of_children_to_display).cloned() {
             let id = id.with(child);
 
             let child_entity_name = guess_entity_name(world, child);
@@ -659,6 +683,12 @@ fn ui_for_entity_with_children_inner<F>(
 
                     ui_for_entity_with_children_inner(world, child, ui, id, type_registry, filter);
                 });
+        }
+        if children.len() > count_of_children_to_display {
+            ui.label(format!(
+                "... and {} more children",
+                children.len() - count_of_children_to_display
+            ));
         }
     }
 
