@@ -117,11 +117,14 @@ pub fn ui_for_resources(world: &mut World, ui: &mut egui::Ui) {
         })
         .collect();
     resources.sort_by(|(name_a, ..), (name_b, ..)| name_a.cmp(name_b));
-    for (name, type_id) in resources {
-        ui.collapsing(name, |ui| {
-            by_type_id::ui_for_resource(world, type_id, ui, name, &type_registry);
-        });
-    }
+
+    egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+        for (name, type_id) in resources {
+            ui.collapsing(name, |ui| {
+                by_type_id::ui_for_resource(world, type_id, ui, name, &type_registry);
+            });
+        }
+    });
 }
 
 /// Display the resource `R`
@@ -167,11 +170,14 @@ pub fn ui_for_all_assets(world: &mut World, ui: &mut egui::Ui) {
         })
         .collect();
     assets.sort_by(|(name_a, ..), (name_b, ..)| name_a.cmp(name_b));
-    for (name, type_id) in assets {
-        ui.collapsing(name, |ui| {
-            by_type_id::ui_for_assets(world, type_id, ui, &type_registry);
-        });
-    }
+
+    egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+        for (name, type_id) in assets {
+            ui.collapsing(name, |ui| {
+                by_type_id::ui_for_assets(world, type_id, ui, &type_registry);
+            });
+        }
+    });
 }
 
 /// Display all assets of the specified asset type `A`
